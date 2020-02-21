@@ -7,11 +7,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Scanner;
 
+import javax.net.ssl.HttpsURLConnection;
+
+import com.cignium.searchengine.model.SearchResults;
 import com.cignium.searchengine.service.APIConsumerService;
 
 public class APIConsumerServiceImpl implements APIConsumerService {
+	
+	// Enter a valid subscription key.
+	static String subscriptionKey = "b76a1ac8c2624fdb9435a81e87f22ae8";
+	static String host = "https://api.cognitive.microsoft.com";
+	static String path = "/bing/v7.0/search";
+	static String searchTerm = "Microsoft Cognitive Services";
 
 	public String compareSearchEngine(String request) {
 		String API_URL;
@@ -85,6 +99,34 @@ public class APIConsumerServiceImpl implements APIConsumerService {
 			inputStream.close();
 		}
 		return result;
+	}
+
+	@Override
+	public SearchResults SearchWeb(String searchQuery) throws Exception {
+		// Construct the URL.
+	    URL url = new URL(host + path + "?q=" +  URLEncoder.encode(searchQuery, "UTF-8"));
+
+	    // Open the connection.
+	    HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
+	    connection.setRequestProperty("Ocp-Apim-Subscription-Key", subscriptionKey);
+
+	    // Receive the JSON response body.
+	    InputStream stream = connection.getInputStream();
+	    String response = new Scanner(stream).useDelimiter("\\A").next();
+
+	    // Construct the result object.
+	    SearchResults results = new SearchResults(new HashMap<String, String>(), response);
+
+	    // Extract Bing-related HTTP headers.
+	    Map<String, List<String>> headers = connection.getHeaderFields();
+	    for (String header : headers.keySet()) {
+	        if (header == null) continue;      // may have null key
+	        if (header.startsWith("BingAPIs-") || header.startsWith("X-MSEdge-")){
+	            results.getRelevantHeaders().put(header, headers.get(header).get(0));
+	        }
+	    }
+	    stream.close();
+	    return results;
 	}
 
 }
