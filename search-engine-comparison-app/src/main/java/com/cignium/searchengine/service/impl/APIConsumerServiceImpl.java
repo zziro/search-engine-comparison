@@ -9,33 +9,38 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Properties;
 
-public class APIConsumerServiceImpl {
+import com.cignium.searchengine.service.APIConsumerService;
 
-	public static void MyGETRequest() throws IOException {
-		URL urlForGetRequest = new URL(
-				"https://www.googleapis.com/customsearch/v1?key=AIzaSyBvZTE5aKlUXbCLz2Wy0GayLZEY4B42-X4&cx=017576662512468239146:omuauf_lfve&q=lectures&exactTerms=Java");
-		String readLine = null;
-		HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
-		conection.setRequestMethod("GET");
-		// conection.setRequestProperty("userId", "a1bcdef"); // set userId its a sample
-		// here
-		int responseCode = conection.getResponseCode();
-		if (responseCode == HttpURLConnection.HTTP_OK) {
-			BufferedReader in = new BufferedReader(new InputStreamReader(conection.getInputStream()));
-			StringBuffer response = new StringBuffer();
-			while ((readLine = in.readLine()) != null) {
-				response.append(readLine);
+public class APIConsumerServiceImpl implements APIConsumerService {
+
+	public String compareSearchEngine(String request) {
+		String API_URL;
+		try {
+			API_URL = getPropValues();
+			URL urlForGetRequest = new URL(API_URL.concat(request));
+			String readLine = null;
+			HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
+			conection.setRequestMethod("GET");
+			int responseCode = conection.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				BufferedReader in = new BufferedReader(new InputStreamReader(conection.getInputStream()));
+				StringBuffer response = new StringBuffer();
+				while ((readLine = in.readLine()) != null) {
+					response.append(readLine);
+				}
+				in.close();
+				return response.toString();
+
+			} else {
+				System.out.println("GET NOT WORKED"); // fix me: Throw Exception
 			}
-			in.close();
-			// print result
-			System.out.println("JSON String Result " + response.toString());
-			// GetAndPost.POSTRequest(response.toString());
-		} else {
-			System.out.println("GET NOT WORKED");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 
-	public String getPropValues() throws IOException {
+	private String getPropValues() throws IOException {
 
 		String result = "";
 		InputStream inputStream = null;
@@ -51,10 +56,8 @@ public class APIConsumerServiceImpl {
 				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
 			}
 
-			String GOOGLE_API_KEY = prop.getProperty("api.google.key");
-
-			System.out.println(GOOGLE_API_KEY);
-
+			String GOOGLE_API_URL = prop.getProperty("api.google.url");
+			return GOOGLE_API_URL;
 		} catch (Exception e) {
 			System.out.println("Exception: " + e);
 		} finally {
