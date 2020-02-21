@@ -1,9 +1,11 @@
 package com.cignium.searchengine;
 
 import java.io.IOException;
-import java.lang.reflect.GenericSignatureFormatError;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.cignium.searchengine.model.GenericResponse;
+import com.cignium.searchengine.model.Response;
 import com.cignium.searchengine.model.SearchInformationModel;
 import com.cignium.searchengine.model.SearchResults;
 import com.cignium.searchengine.service.APIConsumerService;
@@ -16,38 +18,50 @@ import com.google.gson.JsonParser;
 public class App {
 
 	public static void main(String[] args) throws IOException {
+		App app = new App();
+		app.searchEngineComparison("Java PHP");
+	}
 
-		APIConsumerService apiConsumerService = new APIConsumerServiceImpl();
-
-		// Retrieving respose from Bing
-		String response = apiConsumerService.compareSearchEngine("Java");
-
-		Gson obj = new Gson();
-		SearchInformationModel objParsed = obj.fromJson(response, SearchInformationModel.class);
-		// System.out.println("Google: " +
-		// objParsed.getSearchInformation().getTotalResults());
-
-		// Retrieving response from Bing
-
+	public static void searchEngineComparison(String request) {
 		try {
+			if (request == null || request.isEmpty()) {
+				return;
+			}
 
-			SearchResults result = apiConsumerService.SearchWeb("Java");
-			// String resultBing = obj.fromJson(result, SearchResults.class);
-			String responseBing = prettify(result.getJsonResponse());
-			GenericResponse responseParsed = obj.fromJson(responseBing, GenericResponse.class);
-			
-			System.out.println(responseParsed.getWebPages().getTotalEstimatedMatches());
+			String[] requestSplitted = request.split("\\s+"); // [Java, PHP]
 
-			// for (String header : result.getRelevantHeaders().keySet())
+			List<Response> collection = new LinkedList<Response>();
 
+			for (int i = 0; i < requestSplitted.length; i++) {
+
+				// Calling APIs
+				APIConsumerService apiConsumerService = new APIConsumerServiceImpl();
+
+				// Retrieving response from Google
+				String response = apiConsumerService.compareSearchEngine(requestSplitted[i]);
+				Gson obj = new Gson();
+				SearchInformationModel objParsed = obj.fromJson(response, SearchInformationModel.class);
+				Long googleResults = objParsed.getSearchInformation().getTotalResults();
+				System.out.println(objParsed.getSearchInformation().getTotalResults());
+
+				// Retrieving response from Bing
+				SearchResults result = apiConsumerService.SearchWeb(requestSplitted[i]);
+				String responseBing = prettify(result.getJsonResponse());
+				GenericResponse responseParsed = obj.fromJson(responseBing, GenericResponse.class);
+				Long microsoftResponse = responseParsed.getWebPages().getTotalEstimatedMatches();
+				System.out.println(responseParsed.getWebPages().getTotalEstimatedMatches());
+
+				Response apiResponse = new Response(googleResults, microsoftResponse);
+				collection.add(apiResponse);
+			}
+
+			System.out.println(collection);
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 			System.exit(1);
 		}
-
 	}
 
-	// Pretty-printer for JSON; uses GSON parser to parse and re-serialize
 	public static String prettify(String json_text) {
 		JsonObject json = JsonParser.parseString(json_text).getAsJsonObject();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
