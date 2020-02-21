@@ -16,7 +16,7 @@ public class APIConsumerServiceImpl implements APIConsumerService {
 	public String compareSearchEngine(String request) {
 		String API_URL;
 		try {
-			API_URL = getPropValues();
+			API_URL = buildUrl(request);
 			URL urlForGetRequest = new URL(API_URL.concat(request));
 			String readLine = null;
 			HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
@@ -40,13 +40,18 @@ public class APIConsumerServiceImpl implements APIConsumerService {
 		return null;
 	}
 
-	private String getPropValues() throws IOException {
+	private String buildUrl(String request) throws IOException {
 
 		String result = "";
+		String path = "";
+		String cx = "";
+		String q = "";
+		String key = "";
+		
 		InputStream inputStream = null;
 		try {
 			Properties prop = new Properties();
-			String propFileName = "application.properties";
+			String propFileName = "application.properties"; //fix me
 
 			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
@@ -56,10 +61,26 @@ public class APIConsumerServiceImpl implements APIConsumerService {
 				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
 			}
 
-			String GOOGLE_API_URL = prop.getProperty("api.google.url");
-			return GOOGLE_API_URL;
+			key = prop.getProperty("api.google.key");
+			path = prop.getProperty("api.google.path");
+			cx = prop.getProperty("api.google.cx");
+			q = prop.getProperty("api.google.q");
+			
+			String url = new StringBuilder()
+					.append(path)
+					.append("?")
+					.append("key=")
+					.append(key)
+					.append("&cx=")
+					.append(cx)
+					.append("&q=")
+					.append(q)
+					.append("&exactTerms")
+					.append(request).toString();
+			
+			return url;
 		} catch (Exception e) {
-			System.out.println("Exception: " + e);
+			System.out.println("Exception: " + e); //fix me
 		} finally {
 			inputStream.close();
 		}
