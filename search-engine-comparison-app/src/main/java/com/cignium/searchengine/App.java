@@ -3,7 +3,6 @@ package com.cignium.searchengine;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.cignium.searchengine.model.BingResult;
@@ -23,9 +22,12 @@ public class App {
 
 	public static void main(String[] args) throws IOException {
 		App app = new App();
+		
+		//List of parameters
 		List<Response> collectionResponse = app.searchEngineComparison("Java PHP JavaScript");
+		
+		//List of value by Search Engine
 		List<Long> googleHighestList = new ArrayList<Long>();
-		;
 		List<Long> bingHighestList = new ArrayList<Long>();
 
 		// The highest by Search Engine
@@ -51,7 +53,7 @@ public class App {
 			bingHighestList.add(bingResult.getBingResult());
 		}
 
-		// Getting the hightest by Search Engine
+		// Gettting the hightest by Search Engine
 		googleHighestValue = getGoogleHighestResult(googleHighestList);
 		bingHighestValue = getBingHighestResult(bingHighestList);
 		System.out.println(googleHighestValue + " " + bingHighestValue);
@@ -97,7 +99,7 @@ public class App {
 	public List<Response> searchEngineComparison(String request) {
 		try {
 			if (request == null || request.isEmpty()) {
-				return new LinkedList<>();
+				throw new IllegalArgumentException("Enter at lest two parameters");
 			}
 
 			String[] requestSplitted = request.split("\\s+");
