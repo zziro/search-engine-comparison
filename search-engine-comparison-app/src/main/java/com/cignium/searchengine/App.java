@@ -28,8 +28,12 @@ public class App {
 		;
 		List<Long> bingHighestList = new ArrayList<Long>();
 
+		// The highest by Search Engine
 		Long googleHighestValue = null;
 		Long bingHighestValue = null;
+
+		// The total highest
+		Long totalHighestValue = null;
 
 		GoogleResult googleResult = null;
 		BingResult bingResult = null;
@@ -47,11 +51,25 @@ public class App {
 			bingHighestList.add(bingResult.getBingResult());
 		}
 
+		// Getting the hightest by Search Engine
 		googleHighestValue = getGoogleHighestResult(googleHighestList);
 		bingHighestValue = getBingHighestResult(bingHighestList);
-
 		System.out.println(googleHighestValue + " " + bingHighestValue);
 
+		// The total highest
+		totalHighestValue = getTotalHighest(googleHighestValue, bingHighestValue);
+		System.out.println(totalHighestValue);
+
+	}
+
+	private static Long getTotalHighest(Long googleHighestValue, Long bingHighestValue) {
+		Long totalHighest = null;
+		if(googleHighestValue > bingHighestValue) {
+			totalHighest = googleHighestValue; 
+		} else {
+			totalHighest = bingHighestValue;
+		}
+		return totalHighest;
 	}
 
 	private static Long getGoogleHighestResult(List<Long> googleHighestList) {
