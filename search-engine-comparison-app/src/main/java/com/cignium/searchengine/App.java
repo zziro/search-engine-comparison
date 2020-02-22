@@ -1,6 +1,7 @@
 package com.cignium.searchengine;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,18 +20,21 @@ public class App {
 
 	public static void main(String[] args) throws IOException {
 		App app = new App();
-		app.searchEngineComparison("Java PHP");
+		List<Response> collectionResponse = app.searchEngineComparison("Java PHP JavaScript");
+		for (Response response : collectionResponse) {
+			System.out.println(response.getGoogleResponse() + " " + response.getMicrosoftResponse());
+		}
+
 	}
 
-	public static void searchEngineComparison(String request) {
+	public List<Response> searchEngineComparison(String request) {
 		try {
 			if (request == null || request.isEmpty()) {
-				return;
+				return new LinkedList<>();
 			}
 
-			String[] requestSplitted = request.split("\\s+"); // [Java, PHP]
-
-			List<Response> collection = new LinkedList<Response>();
+			String[] requestSplitted = request.split("\\s+");
+			List<Response> collection = new ArrayList<Response>();
 
 			for (int i = 0; i < requestSplitted.length; i++) {
 
@@ -39,27 +43,26 @@ public class App {
 
 				// Retrieving response from Google
 				String response = apiConsumerService.compareSearchEngine(requestSplitted[i]);
+				String googleResponseParsed = prettify(response);
 				Gson obj = new Gson();
-				SearchInformationModel objParsed = obj.fromJson(response, SearchInformationModel.class);
-				Long googleResults = objParsed.getSearchInformation().getTotalResults();
-				System.out.println(objParsed.getSearchInformation().getTotalResults());
+				SearchInformationModel searchInformationModel = obj.fromJson(googleResponseParsed, SearchInformationModel.class);
+				Long googleResults = searchInformationModel.getSearchInformation().getTotalResults();
 
 				// Retrieving response from Bing
 				SearchResults result = apiConsumerService.SearchWeb(requestSplitted[i]);
 				String responseBing = prettify(result.getJsonResponse());
 				GenericResponse responseParsed = obj.fromJson(responseBing, GenericResponse.class);
 				Long microsoftResponse = responseParsed.getWebPages().getTotalEstimatedMatches();
-				System.out.println(responseParsed.getWebPages().getTotalEstimatedMatches());
 
 				Response apiResponse = new Response(googleResults, microsoftResponse);
 				collection.add(apiResponse);
 			}
-
-			System.out.println(collection);
+			return collection;
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 			System.exit(1);
 		}
+		return null;
 	}
 
 	public static String prettify(String json_text) {

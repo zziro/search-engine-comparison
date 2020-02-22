@@ -31,7 +31,7 @@ public class APIConsumerServiceImpl implements APIConsumerService {
 		String API_URL;
 		try {
 			API_URL = buildUrl(request);
-			URL urlForGetRequest = new URL(API_URL.concat(request));
+			URL urlForGetRequest = new URL(API_URL);
 			String readLine = null;
 			HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
 			conection.setRequestMethod("GET");
@@ -46,7 +46,7 @@ public class APIConsumerServiceImpl implements APIConsumerService {
 				return response.toString();
 
 			} else {
-				System.out.println("GET NOT WORKED"); // fix me: Throw Exception
+				System.out.println("GET NOT WORKED");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -65,7 +65,7 @@ public class APIConsumerServiceImpl implements APIConsumerService {
 		InputStream inputStream = null;
 		try {
 			Properties prop = new Properties();
-			String propFileName = "application.properties"; //fix me
+			String propFileName = "application.properties"; 
 
 			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
@@ -89,12 +89,12 @@ public class APIConsumerServiceImpl implements APIConsumerService {
 					.append(cx)
 					.append("&q=")
 					.append(q)
-					.append("&exactTerms")
+					.append("&exactTerms=")
 					.append(request).toString();
 			
 			return url;
 		} catch (Exception e) {
-			System.out.println("Exception: " + e); //fix me
+			System.out.println("Exception: " + e); 
 		} finally {
 			inputStream.close();
 		}
