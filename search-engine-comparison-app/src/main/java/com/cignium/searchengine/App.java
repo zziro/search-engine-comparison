@@ -2,10 +2,13 @@ package com.cignium.searchengine;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.cignium.searchengine.model.BingResult;
 import com.cignium.searchengine.model.GenericResponse;
+import com.cignium.searchengine.model.GoogleResult;
 import com.cignium.searchengine.model.Response;
 import com.cignium.searchengine.model.SearchInformationModel;
 import com.cignium.searchengine.model.SearchResults;
@@ -21,10 +24,56 @@ public class App {
 	public static void main(String[] args) throws IOException {
 		App app = new App();
 		List<Response> collectionResponse = app.searchEngineComparison("Java PHP JavaScript");
+		List<Long> googleHighestList = new ArrayList<Long>();
+		;
+		List<Long> bingHighestList = new ArrayList<Long>();
+
+		Long googleHighestValue = null;
+		Long bingHighestValue = null;
+
+		GoogleResult googleResult = null;
+		BingResult bingResult = null;
+
 		for (Response response : collectionResponse) {
+
 			System.out.println(response.getGoogleResponse() + " " + response.getMicrosoftResponse());
+			googleResult = new GoogleResult();
+			googleResult.setGoogleValue(response.getGoogleResponse());
+
+			bingResult = new BingResult();
+			bingResult.setBingResult(response.getMicrosoftResponse());
+
+			googleHighestList.add(googleResult.getGoogleValue());
+			bingHighestList.add(bingResult.getBingResult());
 		}
 
+		googleHighestValue = getGoogleHighestResult(googleHighestList);
+		bingHighestValue = getBingHighestResult(bingHighestList);
+
+		System.out.println(googleHighestValue + " " + bingHighestValue);
+
+	}
+
+	private static Long getGoogleHighestResult(List<Long> googleHighestList) {
+		if (googleHighestList == null || googleHighestList.size() == 0) {
+			return Long.MIN_VALUE;
+		}
+
+		List<Long> sortedGoogleHighestList = new ArrayList<Long>(googleHighestList);
+
+		Collections.sort(sortedGoogleHighestList); // Is possible to user Collections.max() to get the hightest value.
+		return sortedGoogleHighestList.get(sortedGoogleHighestList.size() - 1);
+	}
+
+	private static Long getBingHighestResult(List<Long> bingHighestList) {
+		if (bingHighestList == null || bingHighestList.size() == 0) {
+			return Long.MIN_VALUE;
+		}
+
+		List<Long> sortedBingHighestList = new ArrayList<Long>(bingHighestList);
+
+		Collections.sort(sortedBingHighestList);
+		return sortedBingHighestList.get(sortedBingHighestList.size() - 1);
 	}
 
 	public List<Response> searchEngineComparison(String request) {
@@ -45,7 +94,8 @@ public class App {
 				String response = apiConsumerService.compareSearchEngine(requestSplitted[i]);
 				String googleResponseParsed = prettify(response);
 				Gson obj = new Gson();
-				SearchInformationModel searchInformationModel = obj.fromJson(googleResponseParsed, SearchInformationModel.class);
+				SearchInformationModel searchInformationModel = obj.fromJson(googleResponseParsed,
+						SearchInformationModel.class);
 				Long googleResults = searchInformationModel.getSearchInformation().getTotalResults();
 
 				// Retrieving response from Bing

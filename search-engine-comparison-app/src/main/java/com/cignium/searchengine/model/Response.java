@@ -1,7 +1,5 @@
 package com.cignium.searchengine.model;
 
-import java.awt.*;
-
 public class Response {
     private Long googleResponse;
     private Long microsoftResponse;

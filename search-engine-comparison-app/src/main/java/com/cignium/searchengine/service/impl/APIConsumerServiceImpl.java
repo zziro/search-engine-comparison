@@ -21,7 +21,6 @@ import com.cignium.searchengine.service.APIConsumerService;
 
 public class APIConsumerServiceImpl implements APIConsumerService {
 	
-	// Enter a valid subscription key.
 	static String subscriptionKey = "b76a1ac8c2624fdb9435a81e87f22ae8";
 	static String host = "https://api.cognitive.microsoft.com";
 	static String path = "/bing/v7.0/search";
