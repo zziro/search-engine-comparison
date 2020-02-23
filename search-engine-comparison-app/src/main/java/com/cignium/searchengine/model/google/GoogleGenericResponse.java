@@ -1,8 +1,8 @@
-package com.cignium.searchengine.model;
+package com.cignium.searchengine.model.google;
 
 import java.io.Serializable;
 
-public class SearchInformationModel implements Serializable {
+public class GoogleGenericResponse implements Serializable {
 	/**
 	 * 
 	 */
@@ -11,7 +11,7 @@ public class SearchInformationModel implements Serializable {
 	private SearchInformation searchInformation;
 
 
-	public SearchInformationModel() {
+	public GoogleGenericResponse() {
 		
 	}
 	

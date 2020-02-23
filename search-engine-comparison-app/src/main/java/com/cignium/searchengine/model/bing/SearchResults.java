@@ -1,4 +1,4 @@
-package com.cignium.searchengine.model;
+package com.cignium.searchengine.model.bing;
 
 import java.util.HashMap;
 

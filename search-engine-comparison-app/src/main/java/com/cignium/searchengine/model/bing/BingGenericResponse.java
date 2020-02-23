@@ -1,10 +1,10 @@
-package com.cignium.searchengine.model;
+package com.cignium.searchengine.model.bing;
 
-public class GenericResponse {
+public class BingGenericResponse {
 
 	private WebPages webPages;
 
-	public GenericResponse() {
+	public BingGenericResponse() {
 
 	}
 

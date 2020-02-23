@@ -3,22 +3,23 @@ package com.cignium.searchengine;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import com.cignium.searchengine.model.BingResult;
-import com.cignium.searchengine.model.GenericResponse;
-import com.cignium.searchengine.model.GoogleResult;
-import com.cignium.searchengine.model.Response;
-import com.cignium.searchengine.model.SearchInformationModel;
-import com.cignium.searchengine.model.SearchResults;
-import com.cignium.searchengine.model.YandexResult;
+import com.cignium.searchengine.model.GenericResult;
+import com.cignium.searchengine.model.bing.BingGenericResponse;
+import com.cignium.searchengine.model.bing.BingResult;
+import com.cignium.searchengine.model.bing.SearchResults;
+import com.cignium.searchengine.model.google.GoogleGenericResponse;
+import com.cignium.searchengine.model.google.GoogleResult;
+import com.cignium.searchengine.model.yandex.YandexResult;
 import com.cignium.searchengine.model.yandex.Yandexsearch;
-import com.cignium.searchengine.service.APIConsumerService;
-import com.cignium.searchengine.service.impl.APIConsumerServiceImpl;
+import com.cignium.searchengine.service.APIService;
+import com.cignium.searchengine.service.impl.APIServiceImpl;
+import com.cignium.searchengine.util.Constants;
+import com.cignium.searchengine.util.HightestUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -30,37 +31,29 @@ public class App {
 		App app = new App();
 
 		// List of parameters
-		List<Response> collectionResponse = app.searchEngineComparison("Java PHP JavaScript");
+		List<GenericResult> resultList = app.callAPI("Java PHP JavaScript");
 
 		// List of value by Search Engine
 		List<Long> googleHighestList = new ArrayList<Long>();
 		List<Long> bingHighestList = new ArrayList<Long>();
 		List<Long> yandexHighestList = new ArrayList<Long>();
 
-		// The highest by Search Engine
-		Long googleHighestValue = null;
-		Long bingHighestValue = null;
-		Long yandexHighestValue = null;
-
-		// The total highest
-		Long totalHighestValue = null;
-
 		GoogleResult googleResult = null;
 		BingResult bingResult = null;
 		YandexResult yandexResult = null;
+		
+		for (GenericResult genericResult : resultList) {
 
-		for (Response response : collectionResponse) {
-
-			System.out.println(response.getGoogleResponse() + " " + response.getBingResponse() + " "
-					+ response.getYandexResponse());
+			System.out.println("Google = " + genericResult.getGoogleResult() + " Bing = " + genericResult.getBingResult() + " Yandex = " + genericResult.getYandexResult()); //Fixme: Use System.format()
+					
 			googleResult = new GoogleResult();
-			googleResult.setGoogleValue(response.getGoogleResponse());
+			googleResult.setGoogleValue(genericResult.getGoogleResult());
 
 			bingResult = new BingResult();
-			bingResult.setBingResult(response.getBingResponse());
+			bingResult.setBingResult(genericResult.getBingResult());
 
 			yandexResult = new YandexResult();
-			yandexResult.setYandexValue(response.getYandexResponse());
+			yandexResult.setYandexValue(genericResult.getYandexResult());
 
 			googleHighestList.add(googleResult.getGoogleValue());
 			bingHighestList.add(bingResult.getBingResult());
@@ -68,101 +61,60 @@ public class App {
 
 		}
 
-		// Gettting the hightest by Search Engine
-		googleHighestValue = getGoogleHighestResult(googleHighestList);
-		bingHighestValue = getBingHighestResult(bingHighestList);
-		yandexHighestValue = getYandexHighestResult(yandexHighestList);
-		System.out.println(googleHighestValue + " " + bingHighestValue + " " + yandexHighestValue);
+		// Getting the highest by Search Engine
+		Long googleHighestValue = HightestUtil.getHighestResult(googleHighestList);
+		Long bingHighestValue = HightestUtil.getHighestResult(bingHighestList);
+		Long yandexHighestValue = HightestUtil.getHighestResult(yandexHighestList);
+		System.out.println("\nGoogle Winner = " + googleHighestValue + " Bing Winner = " + bingHighestValue + " Yandex Winner = " + yandexHighestValue);
 
 		// The total highest
-		totalHighestValue = getTotalHighest(googleHighestValue, bingHighestValue, yandexHighestValue);
-		System.out.println(totalHighestValue);
+		Long totalHighestValue = HightestUtil.getTotalHighest(googleHighestValue, bingHighestValue, yandexHighestValue);
+		System.out.println("\nTotal Winner = "+ totalHighestValue);
 
 	}
 
-	private static Long getTotalHighest(Long googleHighestValue, Long bingHighestValue, Long yandexHighestValue) {
-		return (googleHighestValue > bingHighestValue)
-				? (googleHighestValue > yandexHighestValue ? googleHighestValue : yandexHighestValue)
-				: (bingHighestValue > yandexHighestValue ? bingHighestValue : yandexHighestValue);
-	}
-
-	private static Long getGoogleHighestResult(List<Long> googleHighestList) {
-		if (googleHighestList == null || googleHighestList.size() == 0) {
-			throw new IllegalArgumentException("List has no value");
-		}
-
-		List<Long> sortedGoogleHighestList = new ArrayList<Long>(googleHighestList);
-
-		Collections.sort(sortedGoogleHighestList);
-		return sortedGoogleHighestList.get(sortedGoogleHighestList.size() - 1);
-	}
-
-	private static Long getBingHighestResult(List<Long> bingHighestList) {
-		if (bingHighestList == null || bingHighestList.size() == 0) {
-			throw new IllegalArgumentException("List has no value");
-		}
-
-		List<Long> sortedBingHighestList = new ArrayList<Long>(bingHighestList);
-
-		Collections.sort(sortedBingHighestList);
-		return sortedBingHighestList.get(sortedBingHighestList.size() - 1);
-	}
-
-	private static Long getYandexHighestResult(List<Long> yandexHighestList) {
-		if (yandexHighestList == null || yandexHighestList.size() == 0) {
-			throw new IllegalArgumentException("List has no value");
-		}
-
-		List<Long> sortedYandexHighestList = new ArrayList<Long>(yandexHighestList);
-
-		Collections.sort(sortedYandexHighestList);
-		return sortedYandexHighestList.get(sortedYandexHighestList.size() - 1);
-	}
-
-	public List<Response> searchEngineComparison(String request) {
+	public List<GenericResult> callAPI(String request) {
 		try {
 			if (request == null || request.isEmpty()) {
-				throw new IllegalArgumentException("Enter at lest two parameters");
+				throw new IllegalArgumentException("Enter at least two parameters");
 			}
 
-			String[] requestSplitted = request.split("\\s+");
-			List<Response> collection = new ArrayList<Response>();
+			String[] searchQueryValues = request.split("\\s+");
+			List<GenericResult> collectionResult = new ArrayList<GenericResult>();
 
-			for (int i = 0; i < requestSplitted.length; i++) {
+			for (int i = 0; i < searchQueryValues.length; i++) {
 
-				// Calling APIs
-				APIConsumerService apiConsumerService = new APIConsumerServiceImpl();
+				APIService apiService = new APIServiceImpl();
 
-				// Retrieving response from Google
-				String response = apiConsumerService.compareSearchEngine(requestSplitted[i]);
-				String googleResponseParsed = prettify(response);
+				// Retrieving resuts from Google Search Engine
+				String googleResponse = apiService.getResponseFromGooleAPI(searchQueryValues[i]);
+				String googleResponseParsed = prettify(googleResponse);
 				Gson obj = new Gson();
-				SearchInformationModel searchInformationModel = obj.fromJson(googleResponseParsed,
-						SearchInformationModel.class);
-				Long googleResponseValue = searchInformationModel.getSearchInformation().getTotalResults();
+				GoogleGenericResponse googleGenericResponse = obj.fromJson(googleResponseParsed, GoogleGenericResponse.class);
+				Long googleResult = googleGenericResponse.getSearchInformation().getTotalResults();
 
-				// Retrieving response from Bing
-				SearchResults result = apiConsumerService.SearchWeb(requestSplitted[i]);
-				String responseBing = prettify(result.getJsonResponse());
-				GenericResponse responseParsed = obj.fromJson(responseBing, GenericResponse.class);
-				Long bingResponseValue = responseParsed.getWebPages().getTotalEstimatedMatches();
+				// Retrieving results from Bing Search Engine
+				SearchResults bingResponse = apiService.getResponseFromBingAPI(searchQueryValues[i]);
+				String bingResponseParsed = prettify(bingResponse.getJsonResponse());
+				BingGenericResponse bingGenericResponse = obj.fromJson(bingResponseParsed, BingGenericResponse.class);
+				Long bingResult = bingGenericResponse.getWebPages().getTotalEstimatedMatches();
 
-				// Retrieving response from Yandex
-				String yandexResponse = apiConsumerService.getYandexSearchEngineResult(requestSplitted[i]);
+				// Retrieving results Yandex Search Engine 
+				String yandexResponse = apiService.getResponseFromYandexAPI(searchQueryValues[i]);
 				JAXBContext jaxbContext = JAXBContext.newInstance(Yandexsearch.class);
 				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 				StringReader reader = new StringReader(yandexResponse);
 				Yandexsearch yandexResponseParsed = (Yandexsearch) jaxbUnmarshaller.unmarshal(reader);
-				Long yandexResponseValue = null;
-				if (yandexResponseParsed.getResponse().getFound().getPriority().equals("all")) {
-					yandexResponseValue = yandexResponseParsed.getResponse().getFound().getValue();
+				Long yandexResult = null;
+				if (yandexResponseParsed.getResponse().getFound().getPriority().equals(Constants.FOUND_PRIORITY_ALL)) { 
+					yandexResult = yandexResponseParsed.getResponse().getFound().getValue();
 				}
 
 				// Adding values to collection
-				Response apiResponse = new Response(googleResponseValue, bingResponseValue, yandexResponseValue);
-				collection.add(apiResponse);
+				GenericResult genericResult = new GenericResult(googleResult, bingResult, yandexResult);
+				collectionResult.add(genericResult);
 			}
-			return collection;
+			return collectionResult;
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
