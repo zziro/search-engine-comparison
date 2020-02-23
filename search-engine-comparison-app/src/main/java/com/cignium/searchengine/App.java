@@ -1,9 +1,14 @@
 package com.cignium.searchengine;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
 
 import com.cignium.searchengine.model.BingResult;
 import com.cignium.searchengine.model.GenericResponse;
@@ -11,6 +16,9 @@ import com.cignium.searchengine.model.GoogleResult;
 import com.cignium.searchengine.model.Response;
 import com.cignium.searchengine.model.SearchInformationModel;
 import com.cignium.searchengine.model.SearchResults;
+import com.cignium.searchengine.model.yandex.Found;
+import com.cignium.searchengine.model.yandex.Yandexsearch;
+import com.cignium.searchengine.model.yandex.Yandexsearch;
 import com.cignium.searchengine.service.APIConsumerService;
 import com.cignium.searchengine.service.impl.APIConsumerServiceImpl;
 import com.google.gson.Gson;
@@ -22,11 +30,11 @@ public class App {
 
 	public static void main(String[] args) throws IOException {
 		App app = new App();
-		
-		//List of parameters
+
+		// List of parameters
 		List<Response> collectionResponse = app.searchEngineComparison("Java PHP JavaScript");
-		
-		//List of value by Search Engine
+
+		// List of value by Search Engine
 		List<Long> googleHighestList = new ArrayList<Long>();
 		List<Long> bingHighestList = new ArrayList<Long>();
 
@@ -66,8 +74,8 @@ public class App {
 
 	private static Long getTotalHighest(Long googleHighestValue, Long bingHighestValue) {
 		Long totalHighest = null;
-		if(googleHighestValue > bingHighestValue) {
-			totalHighest = googleHighestValue; 
+		if (googleHighestValue > bingHighestValue) {
+			totalHighest = googleHighestValue;
 		} else {
 			totalHighest = bingHighestValue;
 		}
@@ -111,25 +119,37 @@ public class App {
 				APIConsumerService apiConsumerService = new APIConsumerServiceImpl();
 
 				// Retrieving response from Google
-				String response = apiConsumerService.compareSearchEngine(requestSplitted[i]);
-				String googleResponseParsed = prettify(response);
-				Gson obj = new Gson();
-				SearchInformationModel searchInformationModel = obj.fromJson(googleResponseParsed,
-						SearchInformationModel.class);
-				Long googleResults = searchInformationModel.getSearchInformation().getTotalResults();
+//				String response = apiConsumerService.compareSearchEngine(requestSplitted[i]);
+//				String googleResponseParsed = prettify(response);
+//				Gson obj = new Gson();
+//				SearchInformationModel searchInformationModel = obj.fromJson(googleResponseParsed, SearchInformationModel.class);
+//				Long googleResults = searchInformationModel.getSearchInformation().getTotalResults();
+//
+//				// Retrieving response from Bing
+//				SearchResults result = apiConsumerService.SearchWeb(requestSplitted[i]);
+//				String responseBing = prettify(result.getJsonResponse());
+//				GenericResponse responseParsed = obj.fromJson(responseBing, GenericResponse.class);
+//				Long microsoftResponse = responseParsed.getWebPages().getTotalEstimatedMatches();
 
-				// Retrieving response from Bing
-				SearchResults result = apiConsumerService.SearchWeb(requestSplitted[i]);
-				String responseBing = prettify(result.getJsonResponse());
-				GenericResponse responseParsed = obj.fromJson(responseBing, GenericResponse.class);
-				Long microsoftResponse = responseParsed.getWebPages().getTotalEstimatedMatches();
+				// Retrieving response from Yandex
+				String yandexResponse = apiConsumerService.getYandexSearchEngineResult(requestSplitted[i]);
+				JAXBContext jaxbContext = JAXBContext.newInstance(Yandexsearch.class);
+				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+				StringReader reader = new StringReader(yandexResponse);
+				Yandexsearch yandexResponseParsed = (Yandexsearch) jaxbUnmarshaller.unmarshal(reader);
+				System.out.println(yandexResponseParsed.getResponse().getFound().getPriority());
+				System.out.println(yandexResponseParsed.getResponse().getClass().getField("found"));
+				if(yandexResponseParsed.getResponse().getFound().getPriority().equals("all")) {
+				}
+				
 
-				Response apiResponse = new Response(googleResults, microsoftResponse);
+				// Adding values to collection
+				Response apiResponse = new Response(null, null);
 				collection.add(apiResponse);
 			}
 			return collection;
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 			System.exit(1);
 		}
 		return null;

@@ -7,5 +7,7 @@ public interface APIConsumerService {
     String compareSearchEngine(String request);
 
     SearchResults SearchWeb(String searchQuery) throws Exception;
+    
+    String getYandexSearchEngineResult(String yandexRequest);
 
 }
