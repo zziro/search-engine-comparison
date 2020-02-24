@@ -31,7 +31,7 @@ public class App {
 		App app = new App();
 
 		// List of parameters
-		List<GenericResult> resultList = app.callAPI("Java PHP JavaScript");
+		List<GenericResult> resultList = app.callAPI(args);
 
 		// List of value by Search Engine
 		List<Long> googleHighestList = new ArrayList<Long>();
@@ -73,34 +73,30 @@ public class App {
 
 	}
 
-	public List<GenericResult> callAPI(String request) {
+	public List<GenericResult> callAPI(String[] args) {
 		try {
-			if (request == null || request.isEmpty()) {
-				throw new IllegalArgumentException("Enter at least two parameters");
-			}
 
-			String[] searchQueryValues = request.split("\\s+");
 			List<GenericResult> collectionResult = new ArrayList<GenericResult>();
 
-			for (int i = 0; i < searchQueryValues.length; i++) {
+			for (int i = 0; i < args.length; i++) {
 
 				APIService apiService = new APIServiceImpl();
 
-				// Retrieving resuts from Google Search Engine
-				String googleResponse = apiService.getResponseFromGooleAPI(searchQueryValues[i]);
+				// Retrieving results from Google Search Engine
+				String googleResponse = apiService.getResponseFromGooleAPI(args[i]);
 				String googleResponseParsed = prettify(googleResponse);
 				Gson obj = new Gson();
 				GoogleGenericResponse googleGenericResponse = obj.fromJson(googleResponseParsed, GoogleGenericResponse.class);
 				Long googleResult = googleGenericResponse.getSearchInformation().getTotalResults();
 
 				// Retrieving results from Bing Search Engine
-				SearchResults bingResponse = apiService.getResponseFromBingAPI(searchQueryValues[i]);
+				SearchResults bingResponse = apiService.getResponseFromBingAPI(args[i]);
 				String bingResponseParsed = prettify(bingResponse.getJsonResponse());
 				BingGenericResponse bingGenericResponse = obj.fromJson(bingResponseParsed, BingGenericResponse.class);
 				Long bingResult = bingGenericResponse.getWebPages().getTotalEstimatedMatches();
 
 				// Retrieving results Yandex Search Engine 
-				String yandexResponse = apiService.getResponseFromYandexAPI(searchQueryValues[i]);
+				String yandexResponse = apiService.getResponseFromYandexAPI(args[i]);
 				JAXBContext jaxbContext = JAXBContext.newInstance(Yandexsearch.class);
 				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 				StringReader reader = new StringReader(yandexResponse);

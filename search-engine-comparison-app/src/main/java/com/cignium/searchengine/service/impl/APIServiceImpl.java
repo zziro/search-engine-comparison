@@ -21,9 +21,6 @@ import com.cignium.searchengine.service.APIService;
 import com.cignium.searchengine.util.Constants;
 
 public class APIServiceImpl implements APIService {
-	static String host = "https://api.cognitive.microsoft.com";
-	static String path = "/bing/v7.0/search";
-	static String searchTerm = "Microsoft Cognitive Services";
 
 	public String getResponseFromGooleAPI(String searchQuery) {
 		String googleApiUrl = null;
@@ -44,10 +41,10 @@ public class APIServiceImpl implements APIService {
 				return response.toString();
 
 			} else {
-				System.out.println("Google Search Engine response: " + responseCode);
+				System.out.println("Response: " + conection.getResponseCode() + " : " + conection.getResponseMessage());
 			}
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -83,11 +80,11 @@ public class APIServiceImpl implements APIService {
 					.append("key=").append(key)
 					.append("&cx=").append(cx)
 					.append("&q=").append(q)
-					.append("&exactTerms=").append(searchQuery).toString();
+					.append("&exactTerms=").append(URLEncoder.encode(searchQuery, "UTF-8")).toString();
 
 			return url;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			inputStream.close();
 		}
@@ -257,7 +254,7 @@ public class APIServiceImpl implements APIService {
 					.append(host).append("?")
 					.append("user=").append(user)
 					.append("&key=").append(key)
-					.append("&query=").append(searchQuery)
+					.append("&query=").append(URLEncoder.encode(searchQuery, "UTF-8"))
 					.append("&l10n=").append(language)
 					.append("&sortby=").append(sortby)
 					.append("&filter=").append(filter)
