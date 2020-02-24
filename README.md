@@ -14,33 +14,28 @@
 
 * Configure development environment
 	* Configure JAVA_HOME 
-		* Go to Control Panel -> System and Security -> System -> Advanced System Settings (this will pop up and the System Properties window)
-		* On the System Properties window, click on the "Enviroment Varibles" button.
-		* On the System Varibles section, click on New and the following:
+		- Go to Control Panel -> System and Security -> System -> Advanced System Settings (this will pop up and the System Properties window)
+		- On the System Properties window, click on the "Enviroment Varibles" button.
+		- On the System Varibles section, click on New and the following:
 			Variable name:JAVA_HOME
 			Variable value: C:\Program Files\Java\jdk1.8.0_241
-		* And Save changes.
-		* On the same window, select the "Path" option and click the Edit button.
-		* On th new window, click the "New" button and type the following;
+		- And Save changes.
+		- On the same window, select the "Path" option and click the Edit button.
+		- On th new window, click the "New" button and type the following;
 			JAVA_HOME\bin
-		* Click OK.
+		- Click OK.
+		
 	At this time Java is already confugured in our machine, to ensure that, we need to fo the following:
-	* Open a Command Prompt
-	* Type "java -version"
-	* And hit Enter.
+	- Open a Command Prompt
+	- Type "java -version"
+	- And hit Enter.
+	
 	This will give us a the following result which meand that Java is confugured correctly.
+	
 	C:\Users\Liberato>java -version
 	java version "1.8.0_241"
 	Java(TM) SE Runtime Environment (build 1.8.0_241-b07)
 	Java HotSpot(TM) 64-Bit Server VM (build 25.241-b07, mixed mode)
-
-	C:\Users\Liberato>
-	
-	
-	
-		
-		
-	
 	
 	
 	
