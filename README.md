@@ -4,11 +4,11 @@
 ## Prerequesite
 
 * Install Java
-	- Go to the Oracle Web page and download the Oracle JDK (Windows x64)[JAVA_WEB_PAGE].
+	- Go to the Oracle Web page and download the Oracle JDK (Windows x64): https://www.oracle.com/java/technologies/javase-jdk8-downloads.html.
 	- Once you have the .exe file in you computer, just execute and follow the wizard instructions.
 
 * Install Maven 
-	- Go to Maven page [https://maven.apache.org/download.cgi]
+	- Go to Maven page: https://maven.apache.org/download.cgi
 	- Download the "Source zip archive".
 	- Once you have the .zip file, uncompress it con C:\ disk (e.g: C:\Dev\apache-maven-3.6.1)	
 
@@ -43,7 +43,7 @@
 
 
 4.- Install IDE (Spring Tool Suite 4)
-	* Go to the Spring Tool Suite web page [https://spring.io/tools]
+	* Go to the Spring Tool Suite web page: https://spring.io/tools
 	* Downloead the Windows 64-bit version.
 	* Once the file is downloaded in your machine just uncompress it  and execute the .exe file.
 
@@ -65,12 +65,8 @@
 
 ## Refferences
 
-1.-[JAVA_WEB_PAGE] <br />
+1.-
 2.-
 3.-
 
-
-
-
-[JAVA_WEB_PAGE]:https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
 
