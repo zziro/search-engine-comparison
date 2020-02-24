@@ -1,10 +1,68 @@
 # search-engine-comparison
 
+Search engine comparison is an application that allows to determine the popularity of programming languages by getting result from:
+	 * Google
+	 * Bing
+	 * Yandex (It only allows to make 10 request)
 
+The way is works is as follos:
+When we pass paremeters like: "Java "Java Script" Python PHP", the application will take every parameter and send a request to get results from every Search Engine API. The result will be like this:
 
+		1.- Java ->  Google=51300000 Bing=77700000
+		2.- Java Script ->  Google=6 Bing=101000000
+		3.- Python ->  Google=32400000 Bing=68200000
+		4.- PHP ->  Google=333000000 Bing=6250000000
 
+As we can see, we have result for Java from Google and Bing. 
+From this information we can get the highest number by Search Engine (in this case Google and Bing). We will be calling this winners:
+
+	Google Winner = 333000000 Bing Winner = 6250000000
+
+And also from this information we can get the higest of higest. This value we will be calling as Total Winner:
+
+	Total Winner = 6250000000
+
+Note: It also suports the Russian Seach Engine Yandex(I hit the limit of request, which is 10, so I am able to perform more requests, but I will give you the steps to configure it)
+* Congiguration
+	* In the App.java of the "search-engine-comparison-app" project. We need to comment/uncomment the following lines:
+
+		Uncomment Line 32
+		Uncomment Line 36
+		Uncomment Line 46, 47
+		Uncomment Line 51
+		Uncomment Line 58
+		Comment Line 60 and uncomment 61	
+		Comment Line 64 and uncomment 65
+		Inside de callAPI method: uncomment from 93 to 101
+		Inside de callAPI method: comment 103, uncomment 104
+		Inside de callAPI method: comment 107, uncomment 108
+		Inside de callAPI method: comment 110, uncomment 111
+
+	* Open the command prompt and navigate to the aplication path.
+
+		D:\workspace\search-engine-comparison\search-engine-comparison-app
+
+	* And Run the following maven commands:
+
+		D:\workspace\search-engine-comparison\search-engine-comparison-app>mvn clean install
+		D:\workspace\search-engine-comparison\search-engine-comparison-app>mvn package
+		D:\workspace\search-engine-comparison\search-engine-comparison-app>mvn clean package assembly:single
+
+	* The execution way is the same, to perform this, just go to the "Using command Line" step. And the result will be like this:
+
+		Google = 45400000 Bing = 78300000 Yandex = 14622975
+		Google = 294000000 Bing = 6290000000 Yandex = 48394357
+		Google = 253000000 Bing = 107000000 Yandex = 15615644
+
+		Google Winner = 294000000 Bing Winner = 6290000000 Yandex Winner = 48394357
+
+		Total Winner = 6290000000
 
 ## Prerequesites
+* Generate the APis
+	- Google Search Engine API:https://developers.google.com/custom-search/v1/overview
+	- Bing Search Engine API:https://docs.microsoft.com/en-us/azure/cognitive-services/bing-web-search/quickstarts/java
+	- Yadex Search Engine API: https://xml.yandex.com/settings/
 
 * Install Java
 	- Go to the Oracle Web page and download the Oracle JDK (Windows x64): https://www.oracle.com/java/technologies/javase-jdk8-downloads.html.
