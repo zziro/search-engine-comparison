@@ -39,7 +39,7 @@ And also from this information we can get the higest of the higest result. This 
 	- Download the "Source zip archive".
 	- Once you have the .zip file, uncompress it on "C:\ " disk (e.g: C:\Dev\apache-maven-3.6.1)	
 
-## Configure development environment
+##  Development environment Configuration
 * Configure JAVA_HOME 
 	- Go to Control Panel -> System and Security -> System -> Advanced System Settings
 	- Click the Enviroment Variables button
