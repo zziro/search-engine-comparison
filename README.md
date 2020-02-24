@@ -1,7 +1,9 @@
 # search-engine-comparison
 
 
-## Prerequesite
+
+
+## Prerequesites
 
 * Install Java
 	- Go to the Oracle Web page and download the Oracle JDK (Windows x64): https://www.oracle.com/java/technologies/javase-jdk8-downloads.html.
@@ -65,25 +67,31 @@
 	- Once the file is downloaded in your machine just uncompress it  and execute the .exe file.
 
 
-
-4.- Configure the development environment 
-
-
-
-
-## Installation
-
 ## Running aplication
+* Clonning the application
+    - First we need to create a folder (workspace), e.g: D:\workspace
+	- Inside that folder, we need to clone the repository:
+		git clone https://github.com/zziro/search-engine-comparison.git
+	
+	- Inside the repository, we find the app "search-engine-comparison-app".
+	- Inside the target folder we find the executable .jar "search-engine-comparison-app-1.0-SNAPSHOT-jar-with-dependencies.jar"	
 
 ### Using command Line
+* Running the application
+	- Open the command prompt and navigate to the aplication and execute the following:
+		D:\workspace\search-engine-comparison\search-engine-comparison-app>java -jar "target/search-engine-comparison-app-1.0-SNAPSHOT-jar-with-dependencies.jar" Java "Java Script" Python PHP
+	
+	- This will print the following information in the console:
+		1.- Java ->  Google=51300000 Bing=77700000
+		2.- Java Script ->  Google=6 Bing=101000000
+		3.- Python ->  Google=32400000 Bing=68200000
+		4.- PHP ->  Google=333000000 Bing=6250000000
 
-### Usind IDE
+		Google Winner = 333000000 Bing Winner = 6250000000
 
+		Total Winner = 6250000000	
+	
+### Open with IDE
 
-## Refferences
-
-1.-
-2.-
-3.-
 
 
