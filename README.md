@@ -80,6 +80,7 @@
 * Running the application
 
 	Open the command prompt and navigate to the aplication and execute the following:
+	
 		D:\workspace\search-engine-comparison\search-engine-comparison-app>java -jar "target/search-engine-comparison-app-1.0-SNAPSHOT-jar-with-dependencies.jar" Java "Java Script" Python PHP
 	
 	This will print the following information in the console:
