@@ -4,7 +4,7 @@
 ## Prerequesite
 
 * Install Java
-	- Go to the Oracle Web page and download the Oracle JDK (Windows x64)[JAVA_WEB_PAGE]
+	- Go to the Oracle Web page and download the Oracle JDK (Windows x64)[JAVA_WEB_PAGE].
 	- Once you have the .exe file in you computer, just execute and follow the wizard instructions.
 
 * Install Maven 
@@ -65,7 +65,7 @@
 
 ## Refferences
 
-1.-
+1.-[JAVA_WEB_PAGE] <br />
 2.-
 3.-
 
