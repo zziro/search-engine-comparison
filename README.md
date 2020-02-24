@@ -59,8 +59,7 @@
 		Default locale: en_US, platform encoding: Cp1252
 		OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 	 
-4.- Install IDE (Spring Tool Suite 4)
-
+* Install IDE (Spring Tool Suite 4)
 	- Go to the Spring Tool Suite web page: https://spring.io/tools
 	- Downloead the Windows 64-bit version.
 	- Once the file is downloaded in your machine just uncompress it  and execute the .exe file.
