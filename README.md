@@ -25,17 +25,17 @@
 			JAVA_HOME\bin
 		- Click OK.
 		
-	At this time Java is already confugured in our machine, to ensure that, we need to fo the following:
-	- Open a Command Prompt
-	- Type "java -version"
-	- And hit Enter.
+		At this time Java is already confugured in our machine, to ensure that, we need to fo the following:
+		- Open a Command Prompt
+		- Type "java -version"
+		- And hit Enter.
 	
-	This will give us a the following result which meand that Java is confugured correctly.
+		This will give us a the following result which meand that Java is confugured correctly.
 	
-	C:\Users\Liberato>java -version
-	java version "1.8.0_241"
-	Java(TM) SE Runtime Environment (build 1.8.0_241-b07)
-	Java HotSpot(TM) 64-Bit Server VM (build 25.241-b07, mixed mode)
+			C:\Users\Liberato>java -version
+			java version "1.8.0_241"
+			Java(TM) SE Runtime Environment (build 1.8.0_241-b07)
+			Java HotSpot(TM) 64-Bit Server VM (build 25.241-b07, mixed mode)
 	
 	
 	
