@@ -1,6 +1,7 @@
 # search-engine-comparison
 
 Search engine comparison is an application that allows to determine the popularity of programming languages by getting result from:
+
 	 * Google
 	 * Bing
 	 * Yandex (It only allows to make 10 request)
@@ -25,7 +26,7 @@ And also from this information we can get the higest of higest. This value we wi
 Note: It also suports the Russian Seach Engine Yandex(I hit the limit of request, which is 10, so I am able to perform more requests, but I will give you the steps to configure it)
 * Congiguration
 	* In the App.java of the "search-engine-comparison-app" project. We need to comment/uncomment the following lines:
-
+	
 		Uncomment Line 32
 		Uncomment Line 36
 		Uncomment Line 46, 47
