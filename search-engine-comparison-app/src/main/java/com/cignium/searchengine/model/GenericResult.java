@@ -8,6 +8,12 @@ public class GenericResult {
 	public GenericResult() {
 	}
 
+	public GenericResult(Long googleResult, Long bingResult) {
+		super();
+		this.googleResult = googleResult;
+		this.bingResult = bingResult;
+	}
+
 	public GenericResult(Long googleResult, Long bingResult, Long yandexResult) {
 		super();
 		this.googleResult = googleResult;

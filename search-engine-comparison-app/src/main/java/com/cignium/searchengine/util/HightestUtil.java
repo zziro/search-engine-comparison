@@ -17,7 +17,16 @@ public class HightestUtil {
 		return sortedList.get(sortedList.size() - 1);
 	}
 
-	public static Long getTotalHighest(Long firstValue, Long secondValue, Long thirdValue) {
+	public static Long getTotalHighestWithTwoParameters(Long firstValue, Long secondValue) {
+		if (firstValue > secondValue) {
+			return firstValue;
+		} else {
+			return secondValue;
+		}
+
+	}
+
+	public static Long getTotalHighestWithThreeParameters(Long firstValue, Long secondValue, Long thirdValue) {
 		return (firstValue > secondValue) ? (firstValue > thirdValue ? firstValue : thirdValue)
 				: (secondValue > thirdValue ? secondValue : thirdValue);
 	}

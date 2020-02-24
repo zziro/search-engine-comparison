@@ -1,12 +1,8 @@
 package com.cignium.searchengine;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
 
 import com.cignium.searchengine.model.GenericResult;
 import com.cignium.searchengine.model.bing.BingGenericResponse;
@@ -15,10 +11,8 @@ import com.cignium.searchengine.model.bing.SearchResults;
 import com.cignium.searchengine.model.google.GoogleGenericResponse;
 import com.cignium.searchengine.model.google.GoogleResult;
 import com.cignium.searchengine.model.yandex.YandexResult;
-import com.cignium.searchengine.model.yandex.Yandexsearch;
 import com.cignium.searchengine.service.APIService;
 import com.cignium.searchengine.service.impl.APIServiceImpl;
-import com.cignium.searchengine.util.Constants;
 import com.cignium.searchengine.util.HightestUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,7 +38,8 @@ public class App {
 		
 		for (GenericResult genericResult : resultList) {
 
-			System.out.println("Google = " + genericResult.getGoogleResult() + " Bing = " + genericResult.getBingResult() + " Yandex = " + genericResult.getYandexResult()); //Fixme: Use System.format()
+//			System.out.println("Google = " + genericResult.getGoogleResult() + " Bing = " + genericResult.getBingResult() + " Yandex = " + genericResult.getYandexResult());
+			System.out.println("Google = " + genericResult.getGoogleResult() + " Bing = " + genericResult.getBingResult());
 					
 			googleResult = new GoogleResult();
 			googleResult.setGoogleValue(genericResult.getGoogleResult());
@@ -52,23 +47,26 @@ public class App {
 			bingResult = new BingResult();
 			bingResult.setBingResult(genericResult.getBingResult());
 
-			yandexResult = new YandexResult();
-			yandexResult.setYandexValue(genericResult.getYandexResult());
+//			yandexResult = new YandexResult();
+//			yandexResult.setYandexValue(genericResult.getYandexResult());
 
 			googleHighestList.add(googleResult.getGoogleValue());
 			bingHighestList.add(bingResult.getBingResult());
-			yandexHighestList.add(yandexResult.getYandexValue());
+//			yandexHighestList.add(yandexResult.getYandexValue());
 
 		}
 
 		// Getting the highest by Search Engine
 		Long googleHighestValue = HightestUtil.getHighestResult(googleHighestList);
 		Long bingHighestValue = HightestUtil.getHighestResult(bingHighestList);
-		Long yandexHighestValue = HightestUtil.getHighestResult(yandexHighestList);
-		System.out.println("\nGoogle Winner = " + googleHighestValue + " Bing Winner = " + bingHighestValue + " Yandex Winner = " + yandexHighestValue);
+//		Long yandexHighestValue = HightestUtil.getHighestResult(yandexHighestList);
+		
+//		System.out.println("\nGoogle Winner = " + googleHighestValue + " Bing Winner = " + bingHighestValue + " Yandex Winner = " + yandexHighestValue);
+		System.out.println("\nGoogle Winner = " + googleHighestValue + " Bing Winner = " + bingHighestValue);
 
 		// The total highest
-		Long totalHighestValue = HightestUtil.getTotalHighest(googleHighestValue, bingHighestValue, yandexHighestValue);
+		Long totalHighestValue = HightestUtil.getTotalHighestWithTwoParameters(googleHighestValue, bingHighestValue);
+//		Long totalHighestValue = HightestUtil.getTotalHighestWithThreeParameters(googleHighestValue, bingHighestValue, yandexHighestValue);
 		System.out.println("\nTotal Winner = "+ totalHighestValue);
 
 	}
@@ -96,19 +94,22 @@ public class App {
 				Long bingResult = bingGenericResponse.getWebPages().getTotalEstimatedMatches();
 
 				// Retrieving results Yandex Search Engine 
-				String yandexResponse = apiService.getResponseFromYandexAPI(args[i]);
-				JAXBContext jaxbContext = JAXBContext.newInstance(Yandexsearch.class);
-				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-				StringReader reader = new StringReader(yandexResponse);
-				Yandexsearch yandexResponseParsed = (Yandexsearch) jaxbUnmarshaller.unmarshal(reader);
-				Long yandexResult = null;
-				if (yandexResponseParsed.getResponse().getFound().getPriority().equals(Constants.FOUND_PRIORITY_ALL)) { 
-					yandexResult = yandexResponseParsed.getResponse().getFound().getValue();
-				}
+//				String yandexResponse = apiService.getResponseFromYandexAPI(args[i]);
+//				JAXBContext jaxbContext = JAXBContext.newInstance(Yandexsearch.class);
+//				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+//				StringReader reader = new StringReader(yandexResponse);
+//				Yandexsearch yandexResponseParsed = (Yandexsearch) jaxbUnmarshaller.unmarshal(reader);
+//				Long yandexResult = null;
+//				if (yandexResponseParsed.getResponse().getFound().getPriority().equals(Constants.FOUND_PRIORITY_ALL)) { 
+//					yandexResult = yandexResponseParsed.getResponse().getFound().getValue();
+//				}
 
 				// Adding values to collection
-				GenericResult genericResult = new GenericResult(googleResult, bingResult, yandexResult);
+				GenericResult genericResult = new GenericResult(googleResult, bingResult);
+//				GenericResult genericResultThreeParameters = new GenericResult(googleResult, bingResult, yandexResult);
+				
 				collectionResult.add(genericResult);
+//				collectionResult.add(genericResultThreeParameters);
 			}
 			return collectionResult;
 		} catch (Exception e) {
