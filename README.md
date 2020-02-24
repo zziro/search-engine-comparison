@@ -3,6 +3,7 @@
 
 
 
+
 ## Prerequesites
 
 * Install Java
@@ -94,7 +95,7 @@
 
 		Total Winner = 6250000000	
 	
-### Open with IDE
+
 
 
 
