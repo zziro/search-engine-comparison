@@ -24,9 +24,9 @@ And also from this information we can get the higest of higest. This value we wi
 	Total Winner = 6250000000
 
 Note: It also suports the Russian Seach Engine Yandex(I hit the limit of request, which is 10, so I am able to perform more requests, but I will give you the steps to configure it)
-* Congiguration
-	* In the App.java of the "search-engine-comparison-app" project. We need to comment/uncomment the following lines:
-	
+* Configuration
+	In the App.java of the "search-engine-comparison-app" project. We need to comment/uncomment the following lines:
+
 		Uncomment Line 32
 		Uncomment Line 36
 		Uncomment Line 46, 47
@@ -39,17 +39,17 @@ Note: It also suports the Russian Seach Engine Yandex(I hit the limit of request
 		Inside de callAPI method: comment 107, uncomment 108
 		Inside de callAPI method: comment 110, uncomment 111
 
-	* Open the command prompt and navigate to the aplication path.
+	Open the command prompt and navigate to the aplication path.
 
 		D:\workspace\search-engine-comparison\search-engine-comparison-app
 
-	* And Run the following maven commands:
+	And Run the following maven commands:
 
 		D:\workspace\search-engine-comparison\search-engine-comparison-app>mvn clean install
 		D:\workspace\search-engine-comparison\search-engine-comparison-app>mvn package
 		D:\workspace\search-engine-comparison\search-engine-comparison-app>mvn clean package assembly:single
 
-	* The execution way is the same, to perform this, just go to the "Using command Line" step. And the result will be like this:
+	The execution way is the same, to perform this, just go to the "Using command Line" step. And the result will be like this:
 
 		Google = 45400000 Bing = 78300000 Yandex = 14622975
 		Google = 294000000 Bing = 6290000000 Yandex = 48394357
