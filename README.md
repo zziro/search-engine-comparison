@@ -74,14 +74,15 @@
 		git clone https://github.com/zziro/search-engine-comparison.git
 	
 	- Inside the repository, we find the app "search-engine-comparison-app".
-	- Inside the target folder we find the executable .jar "search-engine-comparison-app-1.0-SNAPSHOT-jar-with-dependencies.jar"	
+	- Inside the target folder we find the executable .jar: "search-engine-comparison-app-1.0-SNAPSHOT-jar-with-dependencies.jar"	
 
 ### Using command Line
 * Running the application
-	- Open the command prompt and navigate to the aplication and execute the following:
+	Open the command prompt and navigate to the aplication and execute the following:
 		D:\workspace\search-engine-comparison\search-engine-comparison-app>java -jar "target/search-engine-comparison-app-1.0-SNAPSHOT-jar-with-dependencies.jar" Java "Java Script" Python PHP
 	
-	- This will print the following information in the console:
+	This will print the following information in the console:
+	
 		1.- Java ->  Google=51300000 Bing=77700000
 		2.- Java Script ->  Google=6 Bing=101000000
 		3.- Python ->  Google=32400000 Bing=68200000
