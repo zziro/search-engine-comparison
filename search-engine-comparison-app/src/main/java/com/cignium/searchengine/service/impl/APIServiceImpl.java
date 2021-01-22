@@ -22,17 +22,20 @@ import com.cignium.searchengine.util.Constants;
 
 public class APIServiceImpl implements APIService {
 
-	public String getResponseFromGooleAPI(String searchQuery) {
+	public String getResponseFromGoogleAPI(String searchQuery) {
 		String googleApiUrl = null;
+		if(searchQuery == null || searchQuery.isEmpty()){
+			throw new IllegalArgumentException("Please enter a valid input.");
+		}
 		try {
 			googleApiUrl = buildGoogleUrl(searchQuery);
 			URL urlForGetRequest = new URL(googleApiUrl);
 			String readLine = null;
-			HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
-			conection.setRequestMethod("GET");
-			int responseCode = conection.getResponseCode();
+			HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
+			connection.setRequestMethod("GET");
+			int responseCode = connection.getResponseCode();
 			if (responseCode == HttpURLConnection.HTTP_OK) {
-				BufferedReader in = new BufferedReader(new InputStreamReader(conection.getInputStream()));
+				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				StringBuffer response = new StringBuffer();
 				while ((readLine = in.readLine()) != null) {
 					response.append(readLine);
@@ -40,8 +43,6 @@ public class APIServiceImpl implements APIService {
 				in.close();
 				return response.toString();
 
-			} else {
-				System.out.println("Response: " + conection.getResponseCode() + " : " + conection.getResponseMessage());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -91,37 +92,47 @@ public class APIServiceImpl implements APIService {
 		return result;
 	}
 
-	@Override
-	public SearchResults getResponseFromBingAPI(String searchQuery) throws Exception {
-		
-		// Construct the URL.
-		String bingApiUrl = buildBingUrl(searchQuery);
-		URL url = new URL(bingApiUrl);
+	//@Override
+	public SearchResults getResponseFromBingAPI(String searchQuery) {
 
-		// Open the connection.
-		HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-		connection.setRequestProperty("Ocp-Apim-Subscription-Key", getKey());
-
-		// Receive the JSON response body.
-		InputStream stream = connection.getInputStream();
-		String response = new Scanner(stream).useDelimiter("\\A").next();
-
-		// Construct the result object.
-		SearchResults results = new SearchResults(new HashMap<String, String>(), response);
-
-		// Extract Bing-related HTTP headers.
-		Map<String, List<String>> headers = connection.getHeaderFields();
-		for (String header : headers.keySet()) {
-			if (header == null)
-				continue; // may have null key
-			if (header.startsWith("BingAPIs-") || header.startsWith("X-MSEdge-")) {
-				results.getRelevantHeaders().put(header, headers.get(header).get(0));
-			}
+		if (searchQuery == null || searchQuery.isEmpty()) {
+			throw new IllegalArgumentException("Please enter a valid input.");
 		}
-		stream.close();
-		return results;
+
+		try {
+			// Construct the URL.
+			String bingApiUrl = buildBingUrl(searchQuery);
+			URL url = new URL(bingApiUrl);
+
+			// Open the connection.
+			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+			connection.setRequestProperty("Ocp-Apim-Subscription-Key", getKey());
+
+			// Receive the JSON response body.
+			InputStream stream = connection.getInputStream();
+			String response = new Scanner(stream).useDelimiter("\\A").next();
+
+			// Construct the result object.
+			SearchResults results = new SearchResults(new HashMap<String, String>(), response);
+
+			// Extract Bing-related HTTP headers.
+			Map<String, List<String>> headers = connection.getHeaderFields();
+			for (String header : headers.keySet()) {
+				if (header == null)
+					continue; // may have null key
+				if (header.startsWith("BingAPIs-") || header.startsWith("X-MSEdge-")) {
+					results.getRelevantHeaders().put(header, headers.get(header).get(0));
+				}
+			}
+			stream.close();
+			return results;
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return null;
+
 	}
-	
+
 	private String buildBingUrl(String searchQuery) throws IOException {
 		String result = "";
 		String host = "";
@@ -150,13 +161,13 @@ public class APIServiceImpl implements APIService {
 
 			return url;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			inputStream.close();
 		}
 		return result;
 	}
-	
+
 	private String getKey() throws IOException {
 		String result = "";
 		String key = "";
@@ -186,18 +197,22 @@ public class APIServiceImpl implements APIService {
 		return result;
 	}
 
-	@Override
+	//@Override
 	public String getResponseFromYandexAPI(String yandexRequest) {
+
+		if(yandexRequest == null || yandexRequest.isEmpty()){
+			throw new IllegalArgumentException("Please enter a valid input.");
+		}
 		String yandexApiUrl = null;
 		try {
 			yandexApiUrl = buildYandexUrl(yandexRequest);
 			URL urlForGetRequest = new URL(yandexApiUrl);
 			String readLine = null;
-			HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
-			conection.setRequestMethod("GET");
-			int responseCode = conection.getResponseCode();
+			HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
+			connection.setRequestMethod("GET");
+			int responseCode = connection.getResponseCode();
 			if (responseCode == HttpURLConnection.HTTP_OK) {
-				BufferedReader in = new BufferedReader(new InputStreamReader(conection.getInputStream()));
+				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				StringBuffer response = new StringBuffer();
 				while ((readLine = in.readLine()) != null) {
 					response.append(readLine);
@@ -205,14 +220,12 @@ public class APIServiceImpl implements APIService {
 				in.close();
 				return response.toString();
 
-			} else {
-				System.out.println("Yandex Search Engine response: " + responseCode);
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
 	private String buildYandexUrl(String searchQuery) throws IOException {
 
@@ -264,7 +277,7 @@ public class APIServiceImpl implements APIService {
 
 			return url;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			inputStream.close();
 		}

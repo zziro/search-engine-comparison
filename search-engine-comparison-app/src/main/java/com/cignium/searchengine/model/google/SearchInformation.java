@@ -2,16 +2,16 @@ package com.cignium.searchengine.model.google;
 
 public class SearchInformation {
 
-	private Double searchTime;
-	private String formattedSearchTime;
+	//private Double searchTime;
+	//private String formattedSearchTime;
 	private Long totalResults;
-	private String formattedTotalResults;
+	//private String formattedTotalResults;
 
 	public SearchInformation() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Double getSearchTime() {
+	/*public Double getSearchTime() {
 		return searchTime;
 	}
 
@@ -25,7 +25,7 @@ public class SearchInformation {
 
 	public void setFormattedSearchTime(String formattedSearchTime) {
 		this.formattedSearchTime = formattedSearchTime;
-	}
+	}*/
 
 	public Long getTotalResults() {
 		return totalResults;
@@ -35,12 +35,12 @@ public class SearchInformation {
 		this.totalResults = totalResults;
 	}
 
-	public String getFormattedTotalResults() {
+	/*public String getFormattedTotalResults() {
 		return formattedTotalResults;
 	}
 
 	public void setFormattedTotalResults(String formattedTotalResults) {
 		this.formattedTotalResults = formattedTotalResults;
-	}
+	}*/
 
 }
