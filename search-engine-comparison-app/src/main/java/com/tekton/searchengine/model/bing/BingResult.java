@@ -1,4 +1,4 @@
-package com.cignium.searchengine.model.bing;
+package com.tekton.searchengine.model.bing;
 
 public class BingResult {
 

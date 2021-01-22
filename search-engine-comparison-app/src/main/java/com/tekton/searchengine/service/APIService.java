@@ -1,6 +1,6 @@
-package com.cignium.searchengine.service;
+package com.tekton.searchengine.service;
 
-import com.cignium.searchengine.model.bing.SearchResults;
+import com.tekton.searchengine.model.bing.SearchResults;
 
 public interface APIService {
 

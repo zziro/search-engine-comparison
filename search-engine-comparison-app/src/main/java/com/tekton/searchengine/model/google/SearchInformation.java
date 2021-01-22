@@ -1,4 +1,4 @@
-package com.cignium.searchengine.model.google;
+package com.tekton.searchengine.model.google;
 
 public class SearchInformation {
 
@@ -31,9 +31,9 @@ public class SearchInformation {
 		return totalResults;
 	}
 
-	public void setTotalResults(Long totalResults) {
+	/*public void setTotalResults(Long totalResults) {
 		this.totalResults = totalResults;
-	}
+	}*/
 
 	/*public String getFormattedTotalResults() {
 		return formattedTotalResults;

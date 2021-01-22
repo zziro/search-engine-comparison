@@ -1,4 +1,4 @@
-package com.cignium.searchengine.util;
+package com.tekton.searchengine.util;
 
 public class Constants {
 

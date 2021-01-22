@@ -1,12 +1,11 @@
-package com.cignium.searchengine;
+package com.tekton.searchengine;
 
-import com.cignium.searchengine.model.*;
-import com.cignium.searchengine.model.google.*;
-import com.cignium.searchengine.service.impl.*;
-import com.cignium.searchengine.util.*;
+
+import com.tekton.searchengine.model.*;
+import com.tekton.searchengine.service.impl.*;
+import com.tekton.searchengine.util.*;
 import org.junit.*;
 
-import java.io.*;
 import java.util.*;
 
 public class SearchEngineComparisonTest {
@@ -36,7 +35,6 @@ public class SearchEngineComparisonTest {
         Assert.assertNotNull(apiService.getResponseFromBingAPI("Java"));
     }
 
-
     @Test(expected = IllegalArgumentException.class)
     public void callAPI_InvalidInput_ExceptionThrown() {
         app.callAPI(new String[]{});
@@ -64,9 +62,24 @@ public class SearchEngineComparisonTest {
         app.main(new String[]{});
     }
 
+    @Test
+    public void main_responseWithData_Success() {
+        app.main(new String[]{"Java"});
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void getHighestResult_responseWithoutData_ThrowExeption() {
         hightestUtil.getHighestResult(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getTotalHighestWithTwoParameters_responseWithoutData_ThrowExeption() {
+        hightestUtil.getTotalHighestWithTwoParameters(null, null);
+    }
+
+    @Test
+    public void getTotalHighestWithTwoParameters_secondGreaterThanFirst_Success() {
+        Assert.assertNotNull(hightestUtil.getTotalHighestWithTwoParameters(1L, 2L));
     }
 
     @Test(expected = IllegalArgumentException.class)

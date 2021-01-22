@@ -1,4 +1,4 @@
-package com.cignium.searchengine.model;
+package com.tekton.searchengine.model;
 
 public class GenericResult {
 	private Long googleResult;

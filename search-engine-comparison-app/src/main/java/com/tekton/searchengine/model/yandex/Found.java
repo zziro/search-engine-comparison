@@ -1,4 +1,4 @@
-package com.cignium.searchengine.model.yandex;
+package com.tekton.searchengine.model.yandex;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;

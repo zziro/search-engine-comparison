@@ -1,4 +1,4 @@
-package com.cignium.searchengine.service.impl;
+package com.tekton.searchengine.service.impl;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,9 +16,9 @@ import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.cignium.searchengine.model.bing.SearchResults;
-import com.cignium.searchengine.service.APIService;
-import com.cignium.searchengine.util.Constants;
+import com.tekton.searchengine.model.bing.SearchResults;
+import com.tekton.searchengine.service.APIService;
+import com.tekton.searchengine.util.Constants;
 
 public class APIServiceImpl implements APIService {
 

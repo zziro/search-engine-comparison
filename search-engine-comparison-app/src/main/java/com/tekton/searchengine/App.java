@@ -1,22 +1,21 @@
-package com.cignium.searchengine;
+package com.tekton.searchengine;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cignium.searchengine.model.GenericResult;
-import com.cignium.searchengine.model.bing.BingGenericResponse;
-import com.cignium.searchengine.model.bing.BingResult;
-import com.cignium.searchengine.model.bing.SearchResults;
-import com.cignium.searchengine.model.google.GoogleGenericResponse;
-import com.cignium.searchengine.model.google.GoogleResult;
-import com.cignium.searchengine.service.APIService;
-import com.cignium.searchengine.service.impl.APIServiceImpl;
-import com.cignium.searchengine.util.*;
+import com.tekton.searchengine.model.GenericResult;
+import com.tekton.searchengine.model.bing.BingGenericResponse;
+import com.tekton.searchengine.model.bing.BingResult;
+import com.tekton.searchengine.model.bing.SearchResults;
+import com.tekton.searchengine.model.google.GoogleGenericResponse;
+import com.tekton.searchengine.model.google.GoogleResult;
+import com.tekton.searchengine.service.APIService;
+import com.tekton.searchengine.service.impl.APIServiceImpl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.tekton.searchengine.util.*;
 
 public class App {
 

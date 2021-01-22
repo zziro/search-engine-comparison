@@ -1,4 +1,4 @@
-package com.cignium.searchengine.model.google;
+package com.tekton.searchengine.model.google;
 
 import java.io.Serializable;
 
