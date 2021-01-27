@@ -42,7 +42,7 @@ public class App {
         // List of value by Search Engine
         List<Long> googleHighestList = new ArrayList<Long>();
         List<Long> bingHighestList = new ArrayList<Long>();
-        List<Long> yandexHighestList = new ArrayList<Long>();
+        //List<Long> yandexHighestList = new ArrayList<Long>();
 
         GoogleResult googleResult = null;
         BingResult bingResult = null;
